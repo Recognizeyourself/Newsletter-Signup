@@ -12,3 +12,13 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+// If the browser made any get request on this route send this message
+app.get('/', function(req, res) {
+  res.send("Server is up ")
+});
+
+// Port is Set up And app is listening on port:3000
+app.listen(3000, function() {
+  console.log(`App listening at http://localhost:${3000}`);
+});
