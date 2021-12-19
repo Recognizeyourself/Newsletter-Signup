@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// Requiring the request Module
+const request = require('request');
+
 // If the browser made any get request on this route send this message
 app.get('/', function(req, res) {
   res.send("Server is up ")
