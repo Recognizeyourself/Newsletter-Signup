@@ -16,9 +16,12 @@ app.use(bodyParser.urlencoded({
 // Requiring the request Module
 const request = require('request');
 
+// To use Static Files (Like local Css, local images) we have to use express static function
+app.use(express.static("public"));
+
 // If the browser made any get request on this route send this message
 app.get('/', function(req, res) {
-  res.send("Server is up ")
+  res.sendFile(__dirname + "/signup.html");
 });
 
 // Port is Set up And app is listening on port:3000
