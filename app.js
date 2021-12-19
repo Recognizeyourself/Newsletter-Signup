@@ -24,6 +24,19 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
 
+
+app.post("/", function(req, res){
+  var fName = req.body.firstName;
+  var lName = req.body.lastName;
+  var email = req.body.mail;
+
+  console.log(fName);
+  console.log(lName);
+  console.log(email);
+  // res.send();
+});
+
+
 // Port is Set up And app is listening on port:3000
 app.listen(3000, function() {
   console.log(`App listening at http://localhost:${3000}`);

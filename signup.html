@@ -50,15 +50,16 @@
 <body class="text-center">
 
   <main class="form-signin">
-    <form>
+    <form action="/" method="post">
       <img class="mb-4" src="images/recognizeyourself.ico" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Signup to my Newsletter!</h1>
 
-        <input type="text" class="form-control top"  placeholder="First Name" required>
-        <input type="text" class="form-control middle" placeholder="Last Name" required>
-        <input type="email" class="form-control bottom" placeholder="Email" required>
+        <input type="text" name = "firstName"  class="form-control top" placeholder="First Name" required>
+        <input type="text" name = "lastName" class="form-control middle" placeholder="Last Name"  required>
+        <input type="email" name = "mail" class="form-control bottom" placeholder="Email"  required>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Me Up!</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Me Up!</button>
+
       <p class="mt-5 mb-3 text-muted">&copy; Recognizeyourself</p>
     </form>
   </main>
