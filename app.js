@@ -1,43 +1,82 @@
-// Requiring the express Module
-const express = require('express');
+//*jshint esversion: 6 */
 
-// Calling the express function
+// ----------required packages---------//
+const express = require("express");
+const request = require("request");
+const bodyParser = require("body-parser");
+const https = require("https");
+
+// new instance of express
 const app = express();
 
-// Requiring the bodyParser Module
-const bodyParser = require('body-parser');
-
-
-// parse application/x-www-form-urlencoded
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// Requiring the request Module
-const request = require('request');
-
-// To use Static Files (Like local Css, local images) we have to use express static function
-app.use(express.static("public"));
-
-// If the browser made any get request on this route send this message
-app.get('/', function(req, res) {
+app.get("/", function(req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
 
+app.post("/", function(req, res) {
+  const firstName = req.body.fName;
+  const lastName = req.body.lName;
+  const email = req.body.email;
+  const data = {
+    //the members, status,merge_fields ---comes from mailChimp api
+    'members': [{
+      email_address: email,
+      status: "subscribed",
+      merge_fields: {
+        FNAME: firstName,
+        LNAME: lastName
+      }
+    }],
+  }
+  var jsonData = JSON.stringify(data)
 
-app.post("/", function(req, res){
-  var fName = req.body.firstName;
-  var lName = req.body.lastName;
-  var email = req.body.mail;
+  // console.log(firstName, lastName, email);
 
-  console.log(fName);
-  console.log(lName);
-  console.log(email);
-  // res.send();
+  // NOTE: The API KEY BELOW HAS BEEN DISABLED ON MAILCHIMP
+  //       AS THIS CODE WILL BE PUSHED TO PUBLIC GITHUB
+
+  const url = "https://us20.api.mailchimp.com/3.0/lists/327a67278c";
+
+  const options = {
+    method: "POST",
+    auth: "key:e4cee400dea7b9466d8584c63c9fe460-us20"
+  }
+
+  const request = https.request(url, options, function(response) {
+    if (response.statusCode === 200) {
+      res.sendFile(__dirname + "/success.html");
+    } else {
+      console.log(response.statusCode);
+      res.sendFile(__dirname + "/failure.html");
+    }
+
+    response.on("data", function(data) {
+      console.log(JSON.parse(data));
+    })
+  })
+
+  request.write(jsonData);
+  request.end();
 });
 
 
-// Port is Set up And app is listening on port:3000
-app.listen(3000, function() {
-  console.log(`App listening at http://localhost:${3000}`);
+app.post("/failure", function(req, res) {
+  res.redirect("/");
 });
+
+app.listen(process.env.PORT || 3000, function() {
+  console.log("Server is running in port 3000")
+});
+
+
+// Api Key
+// e4cee400dea7b9466d8584c63c9fe460-us20
+
+// Unique id for Audience Newsletter : Audience ID (also known as List ID)
+// That is going to help mailchimp identify the list that you want to put your subscribers into.
+// 327a67278c
