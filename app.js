@@ -69,6 +69,18 @@ app.post("/failure", function(req, res) {
   res.redirect("/");
 });
 
+//
+//
+/*
+So this is; basically a dynamic port that Heroku will define on the go. So at any given point, it might decide to deploy your app to Port 3000 or 5000 or whatever it is on their local system.
+So by changing our port to this, it'll allow us to work seamlessly with their system.
+But the problem is that if we try to run this app now locally using localhost, then ur computer won't
+know what this is all about because this process object is defined by Hiroku.
+So what we can do here, if we want to run it, both testing locally as well as deploying to Hiroku,
+if we want to do that simultaneously, then we can tell our app to listen on this port for Hiroku,
+but also add an OR to tell it that you can listen on 3000 when we're running locally.
+So by putting in this as the port, then our app will work both on Hiroku as well as our local system.
+*/
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server is running in port 3000")
 });
